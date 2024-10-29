@@ -1,12 +1,12 @@
 // Definições de pinos e bibliotecas
-const int potentiometer = A0;
+const int redInterval = 6000;      // 6 segundos para o LED vermelho
+const int yellowInterval = 2000;   // 2 segundos para o LED amarelo
+const int greenInterval = 4000;    // 4 segundos para o LED verde
 
 class TrafficLight {
   private:
     // Atributos do semáforo
     int *greenPin, *yellowPin, *redPin, *buttonPin, *buzzerPin;
-    int redInterval, yellowInterval, greenInterval;
-    int adjustedRedTime, adjustedYellowTime, adjustedGreenTime;
     int trafficLightState;
     unsigned long previousTime;
     unsigned long lastButtonTime;
@@ -21,9 +21,6 @@ class TrafficLight {
         lastButtonTime(0), buttonPressed(false) {
         
       trafficLightState = 0; 
-      redInterval = 5000;
-      yellowInterval = 2000;
-      greenInterval = 5000;
 
       // Definir os pinos como saídas ou entrada
       pinMode(*greenPin, OUTPUT);
@@ -35,7 +32,6 @@ class TrafficLight {
 
     // Método para atualizar o semáforo
     void update() {
-      adjustIntervals();
       manageButton();
       unsigned long currentTime = millis();
 
@@ -45,7 +41,7 @@ class TrafficLight {
           digitalWrite(*yellowPin, LOW);
           digitalWrite(*greenPin, LOW);
 
-          if (currentTime - previousTime >= adjustedRedTime) {
+          if (currentTime - previousTime >= redInterval) {
             changeToYellow();
           }
           break;
@@ -55,7 +51,7 @@ class TrafficLight {
           digitalWrite(*yellowPin, HIGH);
           digitalWrite(*greenPin, LOW);
 
-          if (currentTime - previousTime >= adjustedYellowTime) {
+          if (currentTime - previousTime >= yellowInterval) {
             changeToGreen();
           }
           break;
@@ -65,7 +61,7 @@ class TrafficLight {
           digitalWrite(*yellowPin, LOW);
           digitalWrite(*redPin, LOW);
 
-          if (currentTime - previousTime >= adjustedGreenTime) {
+          if (currentTime - previousTime >= greenInterval) {
             changeToYellowBeforeRed();
           }
           break;
@@ -75,29 +71,11 @@ class TrafficLight {
           digitalWrite(*yellowPin, HIGH);
           digitalWrite(*greenPin, LOW);
 
-          if (currentTime - previousTime >= adjustedYellowTime) {
+          if (currentTime - previousTime >= yellowInterval) {
             changeToRed();
           }
           break;
       }
-    }
-
-    // Ajustar os intervalos com base no potenciômetro
-    void adjustIntervals() {
-      int potentiometerReading = analogRead(potentiometer);
-      adjustedRedTime = map(potentiometerReading, 0, 1000, 5000, 60000);
-      adjustedYellowTime = map(potentiometerReading, 0, 1000, 2000, 10000);
-      adjustedGreenTime = map(potentiometerReading, 0, 1000, 5000, 60000);
-
-      // Exibir os intervalos no Serial Monitor
-      Serial.print("Potenciometro: ");
-      Serial.println(potentiometerReading);
-      Serial.print("Intervalo Vermelho: ");
-      Serial.println(adjustedRedTime);
-      Serial.print("Intervalo Amarelo: ");
-      Serial.println(adjustedYellowTime);
-      Serial.print("Intervalo Verde: ");
-      Serial.println(adjustedGreenTime);
     }
 
     // Método para gerenciar o botão
@@ -110,10 +88,8 @@ class TrafficLight {
         
         // Ajustar o intervalo conforme o estado do semáforo
         if (trafficLightState == 0) {
-          adjustedRedTime = max(2000, adjustedRedTime - 2000);
           Serial.println("Tempo do LED Vermelho reduzido por botao");
         } else if (trafficLightState == 2) {
-          adjustedGreenTime += 2000;
           Serial.println("Tempo do LED Verde aumentado por botao");
         }
       } else {
@@ -131,7 +107,7 @@ class TrafficLight {
     void changeToGreen() {
       trafficLightState = 2;
       previousTime = millis();
-      buzz(1);
+      buzz(1); // Disparar o buzzer uma vez ao mudar para verde
       Serial.println("Mudou para o LED Verde");
     }
 
@@ -144,7 +120,7 @@ class TrafficLight {
     void changeToRed() {
       trafficLightState = 0;
       previousTime = millis();
-      buzz(3);
+      buzz(3); // Disparar o buzzer três vezes ao mudar para vermelho
       Serial.println("Mudou para o LED Vermelho");
     }
 
