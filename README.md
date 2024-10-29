@@ -1,14 +1,13 @@
 # Projeto Semáforo com Arduino
 
-Este projeto consiste na criação de um semáforo funcional utilizando um **Arduino**. O projeto original exigia apenas um ciclo simples de semáforo, mas foi expandido para incluir um **potenciômetro**, um **botão** e um **buzzer**, adicionando funcionalidades como ajuste dinâmico dos tempos de cada luz do semáforo e interatividade adicional ao circuito.
+Este projeto consiste na criação de um semáforo funcional utilizando um **Arduino**. O projeto original exigia apenas um ciclo simples de semáforo, mas foi expandido para incluir um **botão** e um **buzzer**, adicionando funcionalidades como ajuste dinâmico dos tempos de cada luz do semáforo e interatividade adicional ao circuito.
 
 ## Circuito
 
 ### Componentes do Circuito
 
 - **LEDs** (Vermelho, Amarelo e Verde): Indicadores do semáforo para os estados de parada, atenção e siga.
-- **Arduino**: Microcontrolador que gerencia o ciclo do semáforo e processa as entradas do potenciômetro e do botão.
-- **Potenciômetro**: Controla dinamicamente o tempo de cada LED, permitindo ajustes manuais do intervalo de cada luz.
+- **Arduino**: Microcontrolador que gerencia o ciclo do semáforo e processa as entradas do botão.
 - **Botão**: Permite intervenção manual para ajustar os tempos dos LEDs.
 - **Buzzer**: Emite um som a cada mudança de estado, sinalizando a transição de luzes.
 - **Capacitor**: Utilizado para o **debounce** do botão, evitando leituras incorretas.
@@ -24,14 +23,13 @@ Este projeto consiste na criação de um semáforo funcional utilizando um **Ard
 ### Explicação do Circuito
 
 1. **Luzes do Semáforo**: Os LEDs (verde, amarelo e vermelho) representam o funcionamento básico de um semáforo, indicando quando parar, ter atenção e seguir.
-2. **Potenciômetro**: Conectado ao Arduino, o potenciômetro ajusta dinamicamente os intervalos de cada luz do semáforo.
 3. **Botão**: Permite ajustes nos tempos das luzes durante a execução do ciclo. O debounce foi suavizado com o uso de um capacitor.
 4. **Buzzer**: Indica as mudanças de estados com diferentes padrões de som para cada transição.
 5. **Resistores**: Garantem a proteção dos LEDs contra picos de corrente.
 
 ## Código
 
-O código foi desenvolvido em **C++**, com uso de **Programação Orientada a Objetos (POO)**. A classe `TrafficLight` encapsula as operações e estados do semáforo, incluindo o controle dos LEDs, buzzer e a leitura do potenciômetro e do botão. **Ponteiros** foram utilizados para facilitar o controle dos pinos de cada componente, tornando o código modular e flexível.
+O código foi desenvolvido em **C++**, com uso de **Programação Orientada a Objetos (POO)**. A classe `TrafficLight` encapsula as operações e estados do semáforo, incluindo o controle dos LEDs e buzzer. **Ponteiros** foram utilizados para facilitar o controle dos pinos de cada componente, tornando o código modular e flexível.
 
 ```cpp
 // Definições de pinos e bibliotecas
@@ -190,30 +188,18 @@ void loop() {
 
 ## Funcionamento do Projeto
 
-1. O **Arduino** lê o valor do **potenciômetro** e ajusta os intervalos de tempo de cada LED de acordo com a leitura.
+1. Os Leds ligam e desligam alternadamente para representar um semáforo.
 2. O **botão** permite ajustar os tempos de uma determinada luz dependendo do estado atual do semáforo, e o debounce é suavizado pelo capacitor.
 3. O **buzzer** emite sons em cada transição de estado para indicar as mudanças de luz (verde, amarelo e vermelho), com diferentes padrões para cada estado.
 4. **Resistores** protegem os LEDs, permitindo que o circuito opere de forma segura.
-
-## Saída de Exemplo
-
-```
-Potenciometro: 512
-Intervalo Vermelho: 15000 ms
-Intervalo Amarelo: 5000 ms
-Intervalo Verde: 10000 ms
-Botao pressionado
-Tempo do LED Verde aumentado por botao
-Mudou para o LED Amarelo (pós-vermelho)
-Buzzer tocou 1 vez
-```
 
 ## Demonstração do Circuito
 
 <div align="center">
     <img src="assets/demo.gif" alt="Demonstração do circuito em funcionamento">
-    <video src="assets/demo.mp4" controls></video>
 </div>
+
+Acima está o gif com a demonstração. A seguit, está o [link](assets/demo.mp4) para baixar o vídeo e conseguir ouvir o áudio.
 
 ## Ferramentas e Montagem
 
@@ -229,12 +215,12 @@ O projeto foi montado fisicamente, sem uso de simuladores. Todos os componentes 
 ### Avaliador: Cibele Leal
 <div align="center">
 
-| Critério                                                                                                            | Contempla (Pontos) | Contempla Parcialmente (Pontos) | Não Contempla (Pontos) | Observações do Avaliador |
-| ------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------- | ---------------------- | ------------------------ |
-| Montagem física com cores corretas, boa disposição dos fios e uso adequado de resistores                            | Até 3              | Até 1,5                         | 0                      |                          |
-| Temporização adequada conforme tempos medidos com auxílio de algum instrumento externo                              | Até 3              | Até 1,5                         | 0                      |                          |
-| Código implementa corretamente as fases do semáforo e estrutura do código (variáveis representativas e comentários) | Até 3              | Até 1,5                         | 0                      |                          |
-| Extra: Implmeentou um componente de liga/desliga no semáforo e/ou usou ponteiros no código                          | Até 1              | Até 0,5                         | 0                      |                          |
-|                                                                                                                     |                    |                                 |                        | **Pontuação Total**      |
+| Critério                                                                                                            | Contempla (Pontos) | Contempla Parcialmente (Pontos) | Não Contempla (Pontos) | Observações do Avaliador                                                |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------- | ---------------------- | ----------------------------------------------------------------------- |
+| Montagem física com cores corretas, boa disposição dos fios e uso adequado de resistores.                           | Até 3              | Até 1,5                         | 3                      |                                                                         |
+| Temporização adequada conforme tempos medidos com auxílio de algum instrumento externo.                             | Até 3              | Até 1,5                         | 3                      |                                                                         |
+| Código implementa corretamente as fases do semáforo e estrutura do código (variáveis representativas e comentários).| Até 3              | Até 1,5                         | 3                      | *Sim, inclusive POO.*                                                     |
+| Extra: Implmeentou um componente de liga/desliga no semáforo e/ou usou ponteiros no código.                         | Até 1              | Até 3,5                         | 1                      | *Implementa ponteiros, capacitor, buzzer e botão para além da atividade.* |
+|                                                                                                                     |                    |                                 | 10                     | **Pontuação Total**                                                     |
 
 </div>
